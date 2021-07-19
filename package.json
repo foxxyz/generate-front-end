@@ -1,0 +1,73 @@
+{
+  "name": "generate-front-end",
+  "version": "0.5.0",
+  "description": "Generate front end ready for development using Front End Starter",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/foxxyz/generate-front-end"
+  },
+  "author": "Ivo Janssen <hello@ivo.la>",
+  "bin": "./index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.31.0"
+  },
+  "dependencies": {
+    "argparse": "^2.0.1",
+    "fresh-console": "^1.0.2",
+    "inquirer": "^8.1.2",
+    "slugify": "^1.6.0"
+  },
+  "eslintConfig": {
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2017,
+      "sourceType": "module"
+    },
+    "rules": {
+      "eqeqeq": [
+        "error",
+        "always"
+      ],
+      "indent": [
+        "error",
+        4
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "no-console": [
+        "error",
+        {
+          "allow": [
+            "warn",
+            "info",
+            "error"
+          ]
+        }
+      ],
+      "object-curly-spacing": [
+        "error",
+        "always"
+      ],
+      "prefer-const": [
+        "error"
+      ],
+      "semi": [
+        "error",
+        "never"
+      ]
+    }
+  }
+}
