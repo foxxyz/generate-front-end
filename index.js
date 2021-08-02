@@ -36,15 +36,16 @@ async function run() {
     const license = args.package_license || (await prompt([{ name: 'license', message: 'License:', default: 'MIT' }])).license
     const repoURL = args.package_url || (await prompt([{ name: 'repository', message: 'Repository URL' }])).repository
 
-    const appDir = path.join(__dirname, packageName)
+    const appDir = path.join('.', packageName)
 
     // Clone repo
     console.info(`Cloning into ${appDir}...`)
     await exec('git', ['clone', 'https://github.com/foxxyz/front-end-starter.git', packageName])
 
     // Remove git remote
-    console.info('Removing git remote "origin"...')
-    await exec('git', ['remote', 'remove', 'origin'], { cwd: appDir })
+    const gitDir = path.join(packageName, '.git')
+    console.info('Removing existing git repo info...')
+    await exec('rm', ['-rf', gitDir])
 
     // Remove CI directory
     const CIDir = path.join(packageName, '.github')
@@ -75,33 +76,52 @@ async function run() {
     index = index.replace(/<title>[^<]+<\/title>/, `<title>${appName}</title>`)
     await writeFile(indexFile, index)
 
+    // Update home page
+    console.info('Updating home.vue...')
+    const homePageFile = path.join(packageName, 'src', 'pages', 'home.vue')
+    let homePage = await readFile(homePageFile, { encoding: 'utf8' })
+    homePage = homePage.replace(/<h1>[^<]+<\/h1>/, `<h1>${appName}</h1>`)
+    await writeFile(homePageFile, homePage)
+
     // Update readme
     console.info('Updating README.md...')
     const readmeFile = path.join(packageName, 'README.md')
     let readme = await readFile(readmeFile, { encoding: 'utf8' })
     // Set title
     readme = readme.replace(/.*(\s)+(=+)/m, `${appName}$1${'='.repeat(appName.length)}`)
+    // Update description
+    readme = readme.replace(/(=+\s+)([\s\S]+)(?:Requirements)/, `$1${description}\n\nRequirements`)
     // Update installation instructions
     readme = readme.replace(/git clone [^`]+/, `git clone ${repoURL}`)
-    // Update usage block
-    readme = readme.replace(/(?:Usage\s+-+\s+)([\s\S]+)(?:Deployment)/, 'peepohappy')
+    // Remove usage block
+    readme = readme.replace(/(?:Usage\s+-+\s+)([\s\S]+)(?:Deployment)/, 'Deployment')
     await writeFile(readmeFile, readme)
 
     // Update license
     console.info('Updating LICENSE...')
     const licenseFile = path.join(packageName, 'LICENSE')
     let licenseContents = await readFile(licenseFile, { encoding: 'utf8' })
-    licenseContents = licenseContents.replace(/Copyright (c).*/, `Copyright (c) ${new Date().getFullYear()} ${author}`)
-    console.log(licenseContents)
+    licenseContents = licenseContents.replace(/Copyright \(c\).*/, `Copyright (c) ${new Date().getFullYear()} ${author}`)
     await writeFile(licenseFile, licenseContents)
 
     // Starting new repo
     console.info('Starting new git repository...')
     await exec('git', ['init'], { cwd: appDir })
 
-    // Remove git remote
-    console.info(`Adding git remote "origin" for ${repoURL}...`)
-    await exec('git', ['remote', 'add', 'origin', repoURL], { cwd: appDir })
+    // Add git remote
+    if (repoURL) {
+        console.info(`Adding git remote "origin" for ${repoURL}...`)
+        await exec('git', ['remote', 'add', 'origin', repoURL], { cwd: appDir })
+    }
+    else {
+        console.warn('Skipping adding git remote, no repository information...')
+    }
+
+    // Install dependencies
+    console.info('Installing dependencies...')
+    await exec('npm', ['install'], { cwd: appDir })
+
+    console.success(`Done! New app ready at ${path.join(process.cwd(), packageName)}`)
 }
 
 run()
