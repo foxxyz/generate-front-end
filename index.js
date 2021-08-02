@@ -92,9 +92,10 @@ async function run() {
     // Update description
     readme = readme.replace(/(=+\s+)([\s\S]+)(?:Requirements)/, `$1${description}\n\nRequirements`)
     // Update installation instructions
+    readme = readme.replace(/(Installation\s+-+)[\s\S]+manually:/, '$1')
     readme = readme.replace(/git clone [^`]+/, `git clone ${repoURL}`)
     // Remove usage block
-    readme = readme.replace(/(?:Usage\s+-+\s+)([\s\S]+)(?:Deployment)/, 'Deployment')
+    readme = readme.replace(/Usage\s+-+[\s\S]+Deployment/, 'Deployment')
     await writeFile(readmeFile, readme)
 
     // Update license
