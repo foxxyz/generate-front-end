@@ -12,11 +12,16 @@ Requirements
 Usage
 -----
 
+No installation or cloning necessary, just run:
+
 ```
 npx generate-front-end
 ```
 
-For all options, see:
+_Note: always verify scripts executed remotely! [See the steps we take in `index.js`](https://github.com/foxxyz/front-end-generator/blob/main/index.js)_
+
+To skip interactive mode and for all other options, see:
+
 ```
 npx generate-front-end --help
 ```
