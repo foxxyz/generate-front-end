@@ -1,7 +1,7 @@
 {
   "name": "generate-front-end",
   "version": "0.5.0",
-  "description": "Generate front end ready for development using Front End Starter",
+  "description": "Generate dev-ready front end using Front End Starter",
   "repository": {
     "type": "git",
     "url": "https://github.com/foxxyz/generate-front-end"

@@ -7,6 +7,7 @@ Requirements
 ------------
 
  * Node 12+
+ * git
 
 Usage
 -----
