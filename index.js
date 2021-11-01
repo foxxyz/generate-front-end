@@ -17,8 +17,6 @@ parser.add_argument('--package-version', { help: 'Package version' })
 parser.add_argument('--package-description', { help: 'Package description' })
 parser.add_argument('--package-license', { help: 'Package license' })
 parser.add_argument('--package-url', { help: 'Package repository URL' })
-
-parser.add_argument('--dry-run', { help: 'Run script but make no file system changes', action: 'store_true' })
 const args = parser.parse_args()
 
 async function exec(...args) {
