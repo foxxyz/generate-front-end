@@ -34,7 +34,7 @@ async function run() {
     const description = args.package_description || (await prompt([{ name: 'description', message: 'Description:' }])).description
     const version = args.package_version || (await prompt([{ name: 'version', message: 'Initial version:', default: '0.1.0', validate: v => v.match(/[0-9]+\.[0-9]+\.[0-9]+/) !== null }])).version
     const license = args.package_license || (await prompt([{ name: 'license', message: 'License:', default: 'MIT' }])).license
-    const repoURL = args.package_url || (await prompt([{ name: 'repository', message: 'Repository URL' }])).repository
+    const repoURL = args.package_url || (await prompt([{ name: 'repository', message: 'Repository URL:' }])).repository
 
     const appDir = path.join('.', packageName)
 
