@@ -13,13 +13,13 @@
   "bin": "./index.js",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^8.1.0"
+    "eslint": "^8.4.1"
   },
   "dependencies": {
     "argparse": "^2.0.1",
     "fresh-console": "^1.0.2",
     "inquirer": "^8.2.0",
-    "slugify": "^1.6.1"
+    "slugify": "^1.6.3"
   },
   "eslintConfig": {
     "env": {
