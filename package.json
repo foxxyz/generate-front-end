@@ -1,6 +1,6 @@
 {
   "name": "generate-front-end",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "Generate dev-ready front-end using the Front End Starter boilerplate",
   "repository": {
     "type": "git",
