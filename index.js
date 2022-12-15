@@ -4,6 +4,8 @@ const { spawn } = require('child_process')
 require('fresh-console')
 const { readFile, writeFile } = require('fs').promises
 const { prompt } = require('inquirer')
+// Remove once Node 18 is LTS
+const fetch = require('node-fetch-native')
 const path = require('path')
 const slugify = require('slugify')
 const packageInfo = require('./package.json')
@@ -22,6 +24,23 @@ const args = parser.parse_args()
 async function exec(...args) {
     const proc = spawn(...args)
     await new Promise(res => proc.on('close', res))
+}
+
+const ALL_LICENSES_URL = 'https://raw.githubusercontent.com/spdx/license-list-data/main/json/licenses.json'
+async function fetchLicense(id) {
+    const allLicensesResponse = await fetch(ALL_LICENSES_URL)
+    if (allLicensesResponse.status !== 200) {
+        throw new Error(`Unable to get available licenses from ${ALL_LICENSES_URL} (status ${allLicensesResponse.status}). Not adding license.`)
+    }
+    const { licenses } = await allLicensesResponse.json()
+    const licenseDetails = licenses.find(l => l.licenseId === id)
+    if (!licenseDetails) {
+        throw new Error(`No SPDX license found matching '${id}'`)
+    }
+    console.info('License found. Creating...')
+    const response = await fetch(licenseDetails.detailsUrl)
+    const { licenseText } = await response.json()
+    return licenseText
 }
 
 async function run() {
@@ -92,16 +111,26 @@ async function run() {
     // Update installation instructions
     readme = readme.replace(/(Installation\s+-+)[\s\S]+manually:/, '$1')
     readme = readme.replace(/git clone [^`]+/, `git clone ${repoURL}`)
+    // Update license info
+    readme = readme.replace('MIT', license)
     // Remove usage block
     readme = readme.replace(/Usage\s+-+[\s\S]+Deployment/, 'Deployment')
     await writeFile(readmeFile, readme)
 
-    // Update license
-    console.info('Updating LICENSE...')
+    // Find license file
+    console.info(`Attempting to fetch '${license}' license...`)
     const licenseFile = path.join(packageName, 'LICENSE')
-    let licenseContents = await readFile(licenseFile, { encoding: 'utf8' })
-    licenseContents = licenseContents.replace(/Copyright \(c\).*/, `Copyright (c) ${new Date().getFullYear()} ${author}`)
-    await writeFile(licenseFile, licenseContents)
+    try {
+        const licenseText = await fetchLicense(license)
+        const licenseContents = licenseText
+            .replace('<year>', new Date().getFullYear())
+            .replace('<copyright holders>', author)
+        await writeFile(licenseFile, licenseContents)
+
+    } catch(e) {
+        console.warn(`${e}. Skipping LICENSE creation...`)
+        await exec('rm', [licenseFile])
+    }
 
     // Starting new repo
     console.info('Starting new git repository...')
