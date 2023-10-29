@@ -1,17 +1,22 @@
 #!/usr/bin/env node
-const { ArgumentParser } = require('argparse')
-const { spawn } = require('child_process')
-require('fresh-console')
-const { readFile, writeFile } = require('fs').promises
-const { prompt } = require('inquirer')
-// Remove once Node 18 is LTS
-const fetch = require('node-fetch-native')
-const path = require('path')
-const slugify = require('slugify')
-const packageInfo = require('./package.json')
+import { ArgumentParser } from 'argparse'
+import { spawn } from 'child_process'
+import 'fresh-console'
+import { readFile, writeFile } from 'fs/promises'
+import pkg from 'inquirer'
+const { prompt } = pkg
+import path from 'path'
+import slugify from 'slugify'
 
+// Get version info from package.json
+// TODO: replace with import once JSON assertions/with lands in Node
+const packageInfo = JSON.parse(
+    await readFile(new URL('./package.json', import.meta.url))
+)
+
+// eslint-disable-next-line camelcase
 const parser = new ArgumentParser({ add_help: true, description: packageInfo.description })
-parser.add_argument('-v', '--version', { action: 'version' })
+parser.add_argument('-v', '--version', { action: 'version', version: packageInfo.version })
 parser.add_argument('--app-name', { help: 'Application name' })
 parser.add_argument('--package-name', { help: 'Package name' })
 parser.add_argument('--package-author', { help: 'Package author' })
@@ -147,6 +152,7 @@ async function run() {
     console.info('Installing dependencies...')
     await exec('npm', ['install'], { cwd: appDir })
 
+    // eslint-disable-next-line no-console
     console.success(`Done! New app ready at ${path.join(process.cwd(), packageName)}`)
 }
 

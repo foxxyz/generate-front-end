@@ -6,6 +6,7 @@
     "type": "git",
     "url": "https://github.com/foxxyz/generate-front-end"
   },
+  "type": "module",
   "scripts": {
     "lint": "eslint ."
   },
