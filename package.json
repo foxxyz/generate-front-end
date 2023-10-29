@@ -4,14 +4,16 @@
   "description": "Generate dev-ready front-end using the Front End Starter boilerplate",
   "repository": {
     "type": "git",
-    "url": "https://github.com/foxxyz/generate-front-end"
+    "url": "git+https://github.com/foxxyz/generate-front-end.git"
   },
   "type": "module",
   "scripts": {
     "lint": "eslint ."
   },
   "author": "Ivo Janssen <hello@ivo.la>",
-  "bin": "./index.js",
+  "bin": {
+    "generate-front-end": "index.js"
+  },
   "license": "MIT",
   "devDependencies": {
     "@appliedminds/eslint-config": "^1.6.0",
