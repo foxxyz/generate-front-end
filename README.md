@@ -6,7 +6,7 @@ Zero-installation generation script for the [Vite & Vue 3 Front-End Starter](htt
 Requirements
 ------------
 
- * Node 12+
+ * Node 18+
  * git
 
 Usage

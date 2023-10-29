@@ -3,8 +3,7 @@ import { ArgumentParser } from 'argparse'
 import { spawn } from 'child_process'
 import 'fresh-console'
 import { readFile, writeFile } from 'fs/promises'
-import pkg from 'inquirer'
-const { prompt } = pkg
+import input from '@inquirer/input'
 import path from 'path'
 import slugify from 'slugify'
 
@@ -50,13 +49,13 @@ async function fetchLicense(id) {
 
 async function run() {
     console.info(`----- Front-End Generator v${packageInfo.version}------`)
-    const appName = args.app_name || (await prompt([{ name: 'appName', message: 'Name of app:', validate: val => val !== '' }])).appName
-    const packageName = args.package_name || (await prompt([{ name: 'packageName', message: 'Package name:', default: slugify(appName.toLowerCase(), { strict: true }) }])).packageName
-    const author = args.package_author || (await prompt([{ name: 'author', message: 'Author:' }])).author
-    const description = args.package_description || (await prompt([{ name: 'description', message: 'Description:' }])).description
-    const version = args.package_version || (await prompt([{ name: 'version', message: 'Initial version:', default: '0.1.0', validate: v => v.match(/[0-9]+\.[0-9]+\.[0-9]+/) !== null }])).version
-    const license = args.package_license || (await prompt([{ name: 'license', message: 'License:', default: 'MIT' }])).license
-    const repoURL = args.package_url || (await prompt([{ name: 'repository', message: 'Repository URL:' }])).repository
+    const appName = args.app_name || await input({ message: 'Name of app:', validate: val => val !== '' })
+    const packageName = args.package_name || await input({ message: 'Package name:', default: slugify(appName.toLowerCase(), { strict: true }) })
+    const author = args.package_author || await input({ message: 'Author:' })
+    const description = args.package_description || await input({ message: 'Description:' })
+    const version = args.package_version || await input({ message: 'Initial version:', default: '0.1.0', validate: v => v.match(/[0-9]+\.[0-9]+\.[0-9]+/) !== null })
+    const license = args.package_license || await input({ message: 'License:', default: 'MIT' })
+    const repoURL = args.package_url || await input({ message: 'Repository URL:' })
 
     const appDir = path.join('.', packageName)
 
