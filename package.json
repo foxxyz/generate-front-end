@@ -15,14 +15,13 @@
   "license": "MIT",
   "devDependencies": {
     "@appliedminds/eslint-config": "^1.6.0",
-    "eslint": "^8.29.0"
+    "eslint": "^8.52.0"
   },
   "dependencies": {
     "argparse": "^2.0.1",
-    "fresh-console": "^1.0.4",
-    "inquirer": "^8.2.5",
-    "node-fetch-native": "^1.0.1",
-    "slugify": "^1.6.5"
+    "fresh-console": "^2.0.0",
+    "inquirer": "^9.2.11",
+    "slugify": "^1.6.6"
   },
   "eslintConfig": {
     "extends": [
