@@ -13,6 +13,7 @@
   "bin": "./index.js",
   "license": "MIT",
   "devDependencies": {
+    "@appliedminds/eslint-config": "^1.6.0",
     "eslint": "^8.29.0"
   },
   "dependencies": {
@@ -23,55 +24,8 @@
     "slugify": "^1.6.5"
   },
   "eslintConfig": {
-    "env": {
-      "es6": true,
-      "node": true
-    },
     "extends": [
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 2017,
-      "sourceType": "module"
-    },
-    "rules": {
-      "eqeqeq": [
-        "error",
-        "always"
-      ],
-      "indent": [
-        "error",
-        4
-      ],
-      "linebreak-style": [
-        "error",
-        "unix"
-      ],
-      "quotes": [
-        "error",
-        "single"
-      ],
-      "no-console": [
-        "error",
-        {
-          "allow": [
-            "warn",
-            "info",
-            "error"
-          ]
-        }
-      ],
-      "object-curly-spacing": [
-        "error",
-        "always"
-      ],
-      "prefer-const": [
-        "error"
-      ],
-      "semi": [
-        "error",
-        "never"
-      ]
-    }
+      "@appliedminds"
+    ]
   }
 }

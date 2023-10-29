@@ -126,8 +126,7 @@ async function run() {
             .replace('<year>', new Date().getFullYear())
             .replace('<copyright holders>', author)
         await writeFile(licenseFile, licenseContents)
-
-    } catch(e) {
+    } catch (e) {
         console.warn(`${e}. Skipping LICENSE creation...`)
         await exec('rm', [licenseFile])
     }
@@ -140,8 +139,7 @@ async function run() {
     if (repoURL) {
         console.info(`Adding git remote "origin" for ${repoURL}...`)
         await exec('git', ['remote', 'add', 'origin', repoURL], { cwd: appDir })
-    }
-    else {
+    } else {
         console.warn('Skipping adding git remote, no repository information...')
     }
 
