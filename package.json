@@ -16,18 +16,13 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@appliedminds/eslint-config": "^1.6.0",
-    "eslint": "^8.52.0"
+    "@appliedminds/eslint-config": "^2.0.1",
+    "eslint": "^9.12.0"
   },
   "dependencies": {
-    "@inquirer/input": "^1.2.13",
+    "@inquirer/input": "^4.0.0",
     "argparse": "^2.0.1",
     "fresh-console": "^2.0.0",
     "slugify": "^1.6.6"
-  },
-  "eslintConfig": {
-    "extends": [
-      "@appliedminds"
-    ]
   }
 }
