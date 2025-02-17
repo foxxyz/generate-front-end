@@ -7,11 +7,7 @@ import input from '@inquirer/input'
 import path from 'path'
 import slugify from 'slugify'
 
-// Get version info from package.json
-// TODO: replace with import once JSON assertions/with lands in Node
-const packageInfo = JSON.parse(
-    await readFile(new URL('./package.json', import.meta.url))
-)
+import packageInfo from './package.json' with { type: 'json' }
 
 // eslint-disable-next-line camelcase
 const parser = new ArgumentParser({ add_help: true, description: packageInfo.description })
